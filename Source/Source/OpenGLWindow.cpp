@@ -8,7 +8,8 @@ namespace TERMED
 		m_pText( NULL ),
 		m_Red( 0.0f ),
 		m_Green( 0.0f ),
-		m_Blue( 0.0f )
+		m_Blue( 0.0f ),
+		m_RenderType( PERSPECTIVE_3D )
 	{
 		m_ParentWindow = m_WindowHandle = NULL;
 	}
@@ -88,6 +89,11 @@ namespace TERMED
 		m_Blue = p_Blue;
 	}
 
+	void OpenGLWindow::SetRenderType( RENDER_TYPE p_RenderType )
+	{
+		m_RenderType = p_RenderType;
+	}
+
 	void OpenGLWindow::SetActive( )
 	{
 		wglMakeCurrent( m_DeviceContext, m_GLContext );
@@ -106,8 +112,38 @@ namespace TERMED
 		GetClientRect( m_WindowHandle, &WindowRect );
 
 		glDisable( GL_DEPTH_TEST );
+		std::string RenderString;
+
+		switch( m_RenderType )
+		{
+			case ORTHOGRAPHIC_3D:
+			{
+				RenderString = "Orthographic";
+				break;
+			}
+			case PERSPECTIVE_3D:
+			{
+				RenderString = "Perspective";
+				break;
+			}
+			case AXIS_XY:
+			{
+				RenderString = "[XY]";
+				break;
+			}
+			case AXIS_XZ:
+			{
+				RenderString = "[XZ]";
+				break;
+			}
+			case AXIS_ZY:
+			{
+				RenderString = "[ZY]";
+				break;
+			}
+		}
 		m_pText->PrintString( 10.0f, WindowRect.bottom - m_pText->GetHeight( ),
-			"3D Perspective" );
+			RenderString );
 		glEnable( GL_DEPTH_TEST );
 
 		::SwapBuffers( m_DeviceContext );

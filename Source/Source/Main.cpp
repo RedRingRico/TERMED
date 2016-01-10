@@ -9,7 +9,6 @@ LRESULT CALLBACK EditorWindowProc( HWND p_WindowHandle, UINT p_Message,
 	WPARAM p_WordParam, LPARAM p_LongParam );
 void AddMenus( HWND p_WindowHandle );
 
-
 // Globals
 TERMED::OpenGLWindow *g_pTestGL[ 4 ];
 
@@ -160,12 +159,13 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 		g_pTestGL[ i ] = new TERMED::OpenGLWindow( GLContext );	
 		g_pTestGL[ i ]->SetDeviceContext( g_pSplitter->GetDeviceContext( ) );
 		g_pTestGL[ i ]->SetParentWindow( g_pSplitter->GetWindowHandle( ) );
+		g_pTestGL[ i ]->SetClearColour( 0.0f, 17.0f / 255.0f, 43.0f / 255.0f );
 	}
 
-	g_pTestGL[ 0 ]->SetClearColour( 0.0f, 17.0f / 255.0f, 43.0f / 255.0f );
-	g_pTestGL[ 1 ]->SetClearColour( 1.0f, 17.0f / 255.0f, 43.0f / 255.0f );
-	g_pTestGL[ 2 ]->SetClearColour( 0.0f, 1.0f, 43.0f / 255.0f );
-	g_pTestGL[ 3 ]->SetClearColour( 0.0f, 17.0f / 255.0f, 1.0f );
+	g_pTestGL[ 0 ]->SetRenderType( TERMED::AXIS_XZ );
+	g_pTestGL[ 1 ]->SetRenderType( TERMED::PERSPECTIVE_3D );
+	g_pTestGL[ 2 ]->SetRenderType( TERMED::AXIS_ZY );
+	g_pTestGL[ 3 ]->SetRenderType( TERMED::AXIS_XY );
 
 	for( int i = 0; i < 4; ++i )
 	{

@@ -8,6 +8,15 @@
 
 namespace TERMED
 {
+	enum RENDER_TYPE
+	{
+		ORTHOGRAPHIC_3D,
+		PERSPECTIVE_3D,
+		AXIS_XY,
+		AXIS_XZ,
+		AXIS_ZY
+	};
+
 	class OpenGLWindow : public EditorWindow
 	{
 	public:
@@ -18,6 +27,8 @@ namespace TERMED
 		virtual void SetParentWindow( HWND p_ParentWindow );
 
 		void SetClearColour( float p_Red, float p_Green, float p_Blue );
+
+		void SetRenderType( RENDER_TYPE p_RenderType );
 
 		void SetActive( );
 
@@ -43,6 +54,8 @@ namespace TERMED
 		float	m_Red;
 		float	m_Green;
 		float	m_Blue;
+
+		RENDER_TYPE	m_RenderType;
 	};
 }
 
