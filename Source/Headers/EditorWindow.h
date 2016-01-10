@@ -14,6 +14,7 @@ namespace TERMED
 		virtual void SetParentWindow( HWND p_ParentWindow );
 
 		HWND GetWindowHandle( );
+		HDC GetDeviceContext( );
 
 	protected:
 		HWND	m_ParentWindow;

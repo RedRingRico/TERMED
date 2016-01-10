@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <OpenGLWindow.h>
+#include <WindowSplitter.h>
 
 #define IDM_QUIT	1
 
@@ -10,7 +11,9 @@ void AddMenus( HWND p_WindowHandle );
 
 
 // Globals
-TERMED::OpenGLWindow *g_pTestGL;
+TERMED::OpenGLWindow *g_pTestGL[ 4 ];
+
+TERMED::WindowSplitter *g_pSplitter;
 
 INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 	LPSTR p_CmdLine, INT p_Cmd )
@@ -146,11 +149,30 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 	wglMakeCurrent( NULL, NULL );
 
 	TERMED::OpenGLWindow::RegisterWindow( );
+	TERMED::WindowSplitter::RegisterWindow( );
 
-	g_pTestGL = new TERMED::OpenGLWindow( GLContext );	
-	g_pTestGL->SetDeviceContext( DeviceContext );
-	g_pTestGL->SetParentWindow( MainWindowHandle );
-	g_pTestGL->SetClearColour( 0.0f, 17.0f / 255.0f, 43.0f / 255.0f );
+	g_pSplitter = new TERMED::WindowSplitter( TERMED::SPLIT_TYPE_FOUR_WAY );
+	g_pSplitter->SetDeviceContext( DeviceContext );
+	g_pSplitter->SetParentWindow( MainWindowHandle );
+
+	for( int i = 0; i < 4; ++i )
+	{
+		g_pTestGL[ i ] = new TERMED::OpenGLWindow( GLContext );	
+		g_pTestGL[ i ]->SetDeviceContext( g_pSplitter->GetDeviceContext( ) );
+		g_pTestGL[ i ]->SetParentWindow( g_pSplitter->GetWindowHandle( ) );
+	}
+
+	g_pTestGL[ 0 ]->SetClearColour( 0.0f, 17.0f / 255.0f, 43.0f / 255.0f );
+	g_pTestGL[ 1 ]->SetClearColour( 1.0f, 17.0f / 255.0f, 43.0f / 255.0f );
+	g_pTestGL[ 2 ]->SetClearColour( 0.0f, 1.0f, 43.0f / 255.0f );
+	g_pTestGL[ 3 ]->SetClearColour( 0.0f, 17.0f / 255.0f, 1.0f );
+
+	for( int i = 0; i < 4; ++i )
+	{
+		g_pSplitter->SetWindow( i, g_pTestGL[ i ] );
+	}
+
+	g_pSplitter->CentreSplitter( );
 
 	MSG Message;
 
@@ -170,9 +192,12 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 			DispatchMessage( &Message );
 		}
 
-		g_pTestGL->SetActive( );
-		g_pTestGL->Clear( );
-		g_pTestGL->SwapBuffers( );
+		for( int i = 0; i < 4; ++i )
+		{
+			g_pTestGL[ i ]->SetActive( );
+			g_pTestGL[ i ]->Clear( );
+			g_pTestGL[ i ]->SwapBuffers( );
+		}
 	}
 
 	wglMakeCurrent( NULL, NULL );
@@ -181,6 +206,16 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 	ReleaseDC( MainWindowHandle, DeviceContext );
 	DestroyWindow( MainWindowHandle );
 	UnregisterClass( "TERMED MAIN", p_ThisInstance );
+
+	for( int i = 0; i < 4; ++i )
+	{
+		delete g_pTestGL[ i ];
+	}
+
+	delete g_pSplitter;
+
+	TERMED::OpenGLWindow::UnregisterWindow( );
+	TERMED::WindowSplitter::UnregisterWindow( );
 
 	return 0;
 }
@@ -222,9 +257,9 @@ LRESULT CALLBACK EditorWindowProc( HWND p_WindowHandle, UINT p_Message,
 			WindowRect.top = 0;
 			WindowRect.bottom = HIWORD( p_LongParam );
 
-			if( g_pTestGL )
+			if( g_pSplitter )
 			{
-				MoveWindow( g_pTestGL->GetWindowHandle( ), 0, 0,
+				MoveWindow( g_pSplitter->GetWindowHandle( ), 0, 0,
 					WindowRect.right - WindowRect.left,
 					WindowRect.bottom - WindowRect.top, TRUE );
 			}

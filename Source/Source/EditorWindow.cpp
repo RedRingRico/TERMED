@@ -25,4 +25,9 @@ namespace TERMED
 	{
 		return m_WindowHandle;
 	}
+
+	HDC EditorWindow::GetDeviceContext( )
+	{
+		return m_DeviceContext;
+	}
 }

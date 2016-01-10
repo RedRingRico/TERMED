@@ -138,6 +138,8 @@ namespace TERMED
 				return 1;
 			}
 		}
+
+		return 0;
 	}
 
 	void OpenGLWindow::UnregisterWindow( )
@@ -201,8 +203,10 @@ namespace TERMED
 	{
 		LONG_PTR UserData = GetWindowLongPtr( p_WindowHandle, GWLP_USERDATA );
 		OpenGLWindow *pThis = reinterpret_cast< OpenGLWindow * >( UserData );
+		
 		assert( pThis );
 		assert( p_WindowHandle == pThis->m_WindowHandle );
+
 		return pThis->WindowProc( p_Message, p_WordParam, p_LongParam );
 	}
 }

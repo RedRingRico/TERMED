@@ -132,6 +132,9 @@
 			<File
 				RelativePath=".\Source\OpenGLWindow.cpp">
 			</File>
+			<File
+				RelativePath=".\Source\WindowSplitter.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -145,6 +148,9 @@
 			</File>
 			<File
 				RelativePath=".\Headers\OpenGLWindow.h">
+			</File>
+			<File
+				RelativePath=".\Headers\WindowSplitter.h">
 			</File>
 		</Filter>
 		<Filter
