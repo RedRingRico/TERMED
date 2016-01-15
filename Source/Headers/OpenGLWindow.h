@@ -56,6 +56,9 @@ namespace TERMED
 		float	m_Blue;
 
 		RENDER_TYPE	m_RenderType;
+
+		int	m_Width;
+		int	m_Height;
 	};
 }
 

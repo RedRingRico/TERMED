@@ -57,7 +57,7 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 	PIXELFORMATDESCRIPTOR PixelFormatDescriptor =
 	{
 		sizeof( PIXELFORMATDESCRIPTOR ), 1,
-		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER |
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |//PFD_DOUBLEBUFFER |
 			PFD_TYPE_RGBA,
 		32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 8, 0, 0,
 		PFD_MAIN_PLANE, 0, 0, 0, 0
@@ -144,6 +144,7 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 	glClearDepth( 1.0f );
 	glEnable( GL_DEPTH_TEST );
 	glDepthFunc( GL_LEQUAL );
+	glEnable( GL_SCISSOR_TEST );
 
 	wglMakeCurrent( NULL, NULL );
 
@@ -194,9 +195,13 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 
 		for( int i = 0; i < 4; ++i )
 		{
+			GdiFlush( );
 			g_pTestGL[ i ]->SetActive( );
 			g_pTestGL[ i ]->Clear( );
 			g_pTestGL[ i ]->SwapBuffers( );
+			glFinish( );
+			
+			wglMakeCurrent( NULL, NULL );
 		}
 	}
 

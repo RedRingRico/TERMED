@@ -9,7 +9,9 @@ namespace TERMED
 		m_Red( 0.0f ),
 		m_Green( 0.0f ),
 		m_Blue( 0.0f ),
-		m_RenderType( PERSPECTIVE_3D )
+		m_RenderType( PERSPECTIVE_3D ),
+		m_Width( 0 ),
+		m_Height( 0 )
 	{
 		m_ParentWindow = m_WindowHandle = NULL;
 	}
@@ -43,16 +45,16 @@ namespace TERMED
 		GetClientRect( p_ParentWindow, &WindowRect );
 
 		m_WindowHandle = CreateWindowEx( WS_EX_CLIENTEDGE, "TERMED OpenGL",
-			NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0, 0, WindowRect.right,
-			WindowRect.bottom, m_ParentWindow, NULL, GetModuleHandle( NULL ),
-			this );
+			NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+			0, 0, WindowRect.right, WindowRect.bottom, m_ParentWindow, NULL,
+			GetModuleHandle( NULL ), this );
 
 		m_DeviceContext = GetDC( m_WindowHandle );
 
 		PIXELFORMATDESCRIPTOR PixelFormatDescriptor =
 		{
 			sizeof( PIXELFORMATDESCRIPTOR ), 1,
-				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER |
+				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |//PFD_DOUBLEBUFFER |
 					PFD_TYPE_RGBA,
 				32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 8, 0, 0,
 				PFD_MAIN_PLANE, 0, 0, 0, 0
@@ -101,8 +103,10 @@ namespace TERMED
 
 	void OpenGLWindow::Clear( )
 	{
+		glViewport( 0, 0, m_Width, m_Height );
+		glScissor( 0, 0, m_Width, m_Height );
 		glClearColor( m_Red, m_Green, m_Blue, 1.0f );
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 	}
 
 	void OpenGLWindow::SwapBuffers( )
@@ -194,11 +198,19 @@ namespace TERMED
 			}
 			case WM_SIZE:
 			{
-				glViewport( 0, 0, LOWORD( p_LongParam ),
-					HIWORD( p_LongParam ) );
+				m_Width = LOWORD( p_LongParam );
+				m_Height = HIWORD( p_LongParam );
 				m_pText->SetScreenDimensions( LOWORD( p_LongParam ), HIWORD( p_LongParam ) );
 
+				RECT WindowRect;
+				GetWindowRect( m_WindowHandle, &WindowRect );
+				ValidateRect( m_WindowHandle, &WindowRect );
+
 				break;
+			}
+			case WM_ERASEBKGND:
+			{
+				return 1;
 			}
 			default:
 			{

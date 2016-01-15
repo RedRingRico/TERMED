@@ -32,7 +32,7 @@ namespace TERMED
 		GetClientRect( p_ParentWindow, &WindowRect );
 
 		m_WindowHandle = CreateWindowEx( WS_EX_CLIENTEDGE, "TERMED | SPLITTER",
-			NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, 0, 0,
+			NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0, 0,
 			WindowRect.right, WindowRect.bottom, m_ParentWindow, NULL,
 			GetModuleHandle( NULL ), this );
 
@@ -129,6 +129,8 @@ namespace TERMED
 			}
 			case WM_SIZE:
 			{
+				RECT Rect;
+
 				if( m_pChildWindow[ 0 ] )
 				{
 					if( m_SplitType == SPLIT_TYPE_HORIZONTAL )
