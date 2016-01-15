@@ -54,7 +54,7 @@ namespace TERMED
 		PIXELFORMATDESCRIPTOR PixelFormatDescriptor =
 		{
 			sizeof( PIXELFORMATDESCRIPTOR ), 1,
-				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL |//PFD_DOUBLEBUFFER |
+				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER |
 					PFD_TYPE_RGBA,
 				32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 8, 0, 0,
 				PFD_MAIN_PLANE, 0, 0, 0, 0
@@ -107,6 +107,16 @@ namespace TERMED
 		glScissor( 0, 0, m_Width, m_Height );
 		glClearColor( m_Red, m_Green, m_Blue, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+
+		glMatrixMode( GL_PROJECTION );
+		glLoadIdentity( );
+		glOrtho( 0, m_Width, m_Height, 0, 0, 1 );
+		glMatrixMode( GL_MODELVIEW );
+		glLoadIdentity( );
+		glBegin( GL_LINES );
+			glVertex3f( 100.0f, 100.0f, 0.0f );
+			glVertex3f( 100.0f, -100.0f, 0.0f );
+		glEnd( );
 	}
 
 	void OpenGLWindow::SwapBuffers( )
