@@ -28,6 +28,15 @@ namespace TERMED
 	{
 	}
 
+	Vector3 &Vector3::operator=( const Vector3 &p_Vector )
+	{
+		m_X = p_Vector.m_X;
+		m_Y = p_Vector.m_Y;
+		m_Z = p_Vector.m_Z;
+
+		return *this;
+	}
+
 	void Vector3::Set( float p_X, float p_Y, float p_Z )
 	{
 		m_X = p_X;

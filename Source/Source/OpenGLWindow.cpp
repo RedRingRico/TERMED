@@ -103,19 +103,81 @@ namespace TERMED
 
 	void OpenGLWindow::Clear( )
 	{
+		Matrix4x4 View, Projection, YRot;
+		float ViewRaw[ 16 ], ProjectionRaw[ 16 ];
+		static float Y = 0.0f;
+
+		m_Camera.SetPosition( 0.0f, 0.0f, 50.0f );
+		m_Camera.SetLookPoint( 0.0f, 0.0f, 0.0f );
+
+		m_Camera.SetAspectRatio( ( float ) m_Width /  ( float ) m_Height );
+
+		m_Camera.CalculateProjectionMatrix( );
+		m_Camera.CalculateViewMatrix( );
+
+		m_Camera.GetProjectionMatrix( Projection );
+		m_Camera.GetViewMatrix( View );
+
+		YRot.CreateRotationY( Y );
+		Y += 0.01f;
+		View = YRot * View;
+		View.CopyToFloatArray( ViewRaw );
+		Projection.CopyToFloatArray( ProjectionRaw );
+
 		glViewport( 0, 0, m_Width, m_Height );
 		glScissor( 0, 0, m_Width, m_Height );
 		glClearColor( m_Red, m_Green, m_Blue, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
 		glMatrixMode( GL_PROJECTION );
-		glLoadIdentity( );
-		glOrtho( 0, m_Width, m_Height, 0, 0, 1 );
+		glLoadMatrixf( ProjectionRaw );
 		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity( );
+		glLoadMatrixf( ViewRaw );
+		
 		glBegin( GL_LINES );
-			glVertex3f( 100.0f, 100.0f, 0.0f );
-			glVertex3f( 100.0f, -100.0f, 0.0f );
+			glColor3f( 0.0f, 1.0f, 0.0f );
+			glVertex3f( 0.0f, 0.0f, 0.0f );
+			glVertex3f( 0.0f, 10.0f, 0.0f );
+			glColor3f( 1.0f, 0.0f, 0.0f );
+			glVertex3f( 0.0f, 0.0f, 0.0f );
+			glVertex3f( 10.0f, 0.0f, 0.0f );
+			glColor3f( 0.0f, 0.0f, 1.0f );
+			glVertex3f( 0.0f, 0.0f, 0.0f );
+			glVertex3f( 0.0f, 0.0f, 10.0f );
+
+			glColor3f( 1.0f, 1.0f, 1.0f );
+
+			// Left
+			glVertex3f( -5.0f, -5.0f, -5.0f );
+			glVertex3f( -5.0f, -5.0f, 5.0f );
+			glVertex3f( -5.0f, -5.0f, 5.0f );
+			glVertex3f( -5.0f, 5.0f, 5.0f );
+			glVertex3f( -5.0f, 5.0f, 5.0f );
+			glVertex3f( -5.0f, 5.0f, -5.0f );
+			glVertex3f( -5.0f, 5.0f, -5.0f );
+			glVertex3f( -5.0f, -5.0f, -5.0f );
+
+			// Top
+			glVertex3f( -5.0f, 5.0f, -5.0f );
+			glVertex3f( 5.0f, 5.0f, -5.0f );
+			glVertex3f( 5.0f, 5.0f, 5.0f );
+			glVertex3f( -5.0f, 5.0f, 5.0f );
+
+			// Bottom
+			glVertex3f( -5.0f, -5.0f, -5.0f );
+			glVertex3f( 5.0f, -5.0f, -5.0f );
+			glVertex3f( 5.0f, -5.0f, 5.0f );
+			glVertex3f( -5.0f, -5.0f, 5.0f );
+
+			// Right
+			glVertex3f( 5.0f, -5.0f, -5.0f );
+			glVertex3f( 5.0f, -5.0f, 5.0f );
+			glVertex3f( 5.0f, -5.0f, 5.0f );
+			glVertex3f( 5.0f, 5.0f, 5.0f );
+			glVertex3f( 5.0f, 5.0f, 5.0f );
+			glVertex3f( 5.0f, 5.0f, -5.0f );
+			glVertex3f( 5.0f, 5.0f, -5.0f );
+			glVertex3f( 5.0f, -5.0f, -5.0f );
 		glEnd( );
 	}
 
@@ -212,15 +274,11 @@ namespace TERMED
 				m_Height = HIWORD( p_LongParam );
 				m_pText->SetScreenDimensions( LOWORD( p_LongParam ), HIWORD( p_LongParam ) );
 
-				RECT WindowRect;
-				GetWindowRect( m_WindowHandle, &WindowRect );
-				ValidateRect( m_WindowHandle, &WindowRect );
-
 				break;
 			}
 			case WM_ERASEBKGND:
 			{
-				return 1;
+				return TRUE;
 			}
 			default:
 			{

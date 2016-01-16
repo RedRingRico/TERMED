@@ -195,11 +195,9 @@ INT WINAPI WinMain( HINSTANCE p_ThisInstance, HINSTANCE p_PrevInstance,
 
 		for( int i = 0; i < 4; ++i )
 		{
-			GdiFlush( );
 			g_pTestGL[ i ]->SetActive( );
 			g_pTestGL[ i ]->Clear( );
 			g_pTestGL[ i ]->SwapBuffers( );
-			glFinish( );
 			
 			wglMakeCurrent( NULL, NULL );
 		}

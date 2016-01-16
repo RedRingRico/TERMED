@@ -5,6 +5,7 @@
 #include <GL/gl.h>
 #include <GL/wglext.h>
 #include <GLText.h>
+#include <Camera.h>
 
 namespace TERMED
 {
@@ -59,6 +60,8 @@ namespace TERMED
 
 		int	m_Width;
 		int	m_Height;
+
+		Camera	m_Camera;
 	};
 }
 

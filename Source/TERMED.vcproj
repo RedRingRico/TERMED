@@ -124,6 +124,9 @@
 				RelativePath=".\Source\Arithmetic.cpp">
 			</File>
 			<File
+				RelativePath=".\Source\Camera.cpp">
+			</File>
+			<File
 				RelativePath=".\Source\EditorWindow.cpp">
 			</File>
 			<File
@@ -131,6 +134,9 @@
 			</File>
 			<File
 				RelativePath=".\Source\Main.cpp">
+			</File>
+			<File
+				RelativePath=".\Source\Matrix4x4.cpp">
 			</File>
 			<File
 				RelativePath=".\Source\OpenGLWindow.cpp">
@@ -150,10 +156,16 @@
 				RelativePath=".\Headers\Arithmetic.h">
 			</File>
 			<File
+				RelativePath=".\Headers\Camera.h">
+			</File>
+			<File
 				RelativePath=".\Headers\EditorWindow.h">
 			</File>
 			<File
 				RelativePath=".\Headers\GLText.h">
+			</File>
+			<File
+				RelativePath=".\Headers\Matrix4x4.h">
 			</File>
 			<File
 				RelativePath=".\Headers\OpenGLWindow.h">
