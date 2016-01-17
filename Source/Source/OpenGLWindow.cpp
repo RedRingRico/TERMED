@@ -11,7 +11,8 @@ namespace TERMED
 		m_Blue( 0.0f ),
 		m_RenderType( PERSPECTIVE_3D ),
 		m_Width( 0 ),
-		m_Height( 0 )
+		m_Height( 0 ),
+		m_ViewScale( 1.0f )
 	{
 		m_ParentWindow = m_WindowHandle = NULL;
 	}
@@ -94,6 +95,52 @@ namespace TERMED
 	void OpenGLWindow::SetRenderType( RENDER_TYPE p_RenderType )
 	{
 		m_RenderType = p_RenderType;
+
+		switch( m_RenderType )
+		{
+			case PERSPECTIVE_3D:
+			{
+				m_Camera.SetProjectionMode( PROJECTION_MODE_PERSPECTIVE );
+				m_Camera.SetPosition( 0.0f, 0.0f, 50.0f );
+
+				break;
+			}
+			case ORTHOGRAPHIC_3D:
+			{
+				m_Camera.SetProjectionMode( PROJECTION_MODE_ORTHOGRAPHIC );
+				m_Camera.SetPosition( 0.0f, 0.0f, 50.0f );
+				m_ViewScale = 10.0f;
+
+				break;
+			}
+			case AXIS_XY:
+			{
+				m_Camera.SetProjectionMode( PROJECTION_MODE_ORTHOGRAPHIC );
+				m_Camera.SetPosition( Vector3( 0.0f, 0.0f, 50.0f ) );
+				m_Camera.SetClippingPlanes( 1.0f, 100000.0f );
+				m_ViewScale = 10.0f;
+
+				break;
+			}
+			case AXIS_XZ:
+			{
+				m_Camera.SetProjectionMode( PROJECTION_MODE_ORTHOGRAPHIC );
+				m_Camera.SetPosition( Vector3( 0.0f, 50.0f, 0.0f ) );
+				m_Camera.SetClippingPlanes( 1.0f, 100000.0f );
+				m_Camera.SetWorldUp( 0.0f, 0.0f, 1.0f );
+				m_ViewScale = 10.0f;
+
+				break;
+			}
+			case AXIS_ZY:
+			{
+				m_Camera.SetProjectionMode( PROJECTION_MODE_ORTHOGRAPHIC );
+				m_Camera.SetPosition( Vector3( 50.0f, 0.0f, 0.0f ) );
+				m_ViewScale = 10.0f;
+
+				break;
+			}
+		}
 	}
 
 	void OpenGLWindow::SetActive( )
@@ -103,11 +150,12 @@ namespace TERMED
 
 	void OpenGLWindow::Clear( )
 	{
-		Matrix4x4 View, Projection, YRot;
+		Matrix4x4 View, Projection, YRot, Scale;
 		float ViewRaw[ 16 ], ProjectionRaw[ 16 ];
 		static float Y = 0.0f;
 
-		m_Camera.SetPosition( 0.0f, 0.0f, 50.0f );
+		m_Camera.SetDimensions( m_Width, m_Height );
+
 		m_Camera.SetLookPoint( 0.0f, 0.0f, 0.0f );
 
 		m_Camera.SetAspectRatio( ( float ) m_Width /  ( float ) m_Height );
@@ -119,8 +167,9 @@ namespace TERMED
 		m_Camera.GetViewMatrix( View );
 
 		YRot.CreateRotationY( Y );
+		Scale.CreateScale( m_ViewScale );
 		Y += 0.01f;
-		View = YRot * View;
+		Projection = Projection * Scale;
 		View.CopyToFloatArray( ViewRaw );
 		Projection.CopyToFloatArray( ProjectionRaw );
 

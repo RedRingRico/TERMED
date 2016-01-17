@@ -9,7 +9,7 @@ namespace TERMED
 		m_WorldUp( 0.0f, 1.0f, 0.0f ),
 		m_LookPoint( 0.0f, 0.0f, -1.0f ),
 		m_Near( 1.0f ),
-		m_Far( 100.0f ),
+		m_Far( 1000.0f ),
 		m_AspectRatio( 1.0f ),
 		m_FieldOfView( 45.0f ),
 		m_Width( 0.0f ),
@@ -51,14 +51,36 @@ namespace TERMED
 		p_Position = m_Position;
 	}
 
+	void Camera::SetDimensions( float p_Width, float p_Height )
+	{
+		m_Width = p_Width;
+		m_Height = p_Height;
+	}
+
 	void Camera::SetLookPoint( float p_X, float p_Y, float p_Z )
 	{
 		m_LookPoint.Set( p_X, p_Y, p_Z );
 	}
 
+	void Camera::SetWorldUp( float p_X, float p_Y, float p_Z )
+	{
+		m_WorldUp.Set( p_X, p_Y, p_Z );
+	}
+
+	void Camera::SetClippingPlanes( float p_Near, float p_Far )
+	{
+		m_Near = p_Near;
+		m_Far = p_Far;
+	}
+
 	void Camera::SetAspectRatio( float p_AspectRatio )
 	{
 		m_AspectRatio = p_AspectRatio;
+	}
+
+	void Camera::SetProjectionMode( PROJECTION_MODE p_ProjectionMode )
+	{
+		m_ProjectionMode = p_ProjectionMode;
 	}
 
 	int Camera::CalculateProjectionMatrix( )
@@ -67,6 +89,15 @@ namespace TERMED
 		{
 		case PROJECTION_MODE_ORTHOGRAPHIC:
 			{
+				m_Projection.SetAsIdentity( );
+
+				m_Projection( 0, 0 ) = 2.0f / ( m_Width );
+				m_Projection( 1, 1 ) = 2.0f / ( m_Height );
+
+				m_Projection( 2, 2 ) = -2.0f / ( m_Far - m_Near );
+				m_Projection( 2, 3 ) = -( m_Far + m_Near ) /
+					( m_Far - m_Near );
+
 				break;
 			}
 		case PROJECTION_MODE_PERSPECTIVE:
@@ -77,14 +108,15 @@ namespace TERMED
 				}
 
 				float D = 1.0f / tanf( ( m_FieldOfView * c_PiOver360 ) / 2.0f );
-				float Reciprocal = 1.0f / ( m_Near / m_Far );
 
 				m_Projection.SetAsIdentity( );
 
 				m_Projection( 0, 0 ) = D / m_AspectRatio;
 				m_Projection( 1, 1 ) = D;
-				m_Projection( 2, 2 ) = -( m_Far + m_Near ) / ( m_Far - m_Near );// Reciprocal;
-				m_Projection( 2, 3 ) = ( -2.0f * m_Near * m_Far ) / ( m_Far - m_Near );
+				m_Projection( 2, 2 ) = -( m_Far + m_Near ) /
+					( m_Far - m_Near );
+				m_Projection( 2, 3 ) = ( -2.0f * m_Near * m_Far ) /
+					( m_Far - m_Near );
 				m_Projection( 3, 2 ) = -1.0f;
 				m_Projection( 3, 3 ) = 0.0f;
 

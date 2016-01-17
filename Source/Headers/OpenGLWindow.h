@@ -62,6 +62,7 @@ namespace TERMED
 		int	m_Height;
 
 		Camera	m_Camera;
+		float			m_ViewScale;
 	};
 }
 

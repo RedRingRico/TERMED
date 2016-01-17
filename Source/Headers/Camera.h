@@ -42,6 +42,8 @@ namespace TERMED
 		void SetAspectRatio( float p_AspectRatio );
 		float GetAspectRatio( ) const;
 
+		void SetProjectionMode( PROJECTION_MODE p_ProjectionMode );
+
 		void GetProjectionMatrix( Matrix4x4 &p_Matrix ) const;
 		void GetViewMatrix( Matrix4x4 &p_Matrix ) const;
 

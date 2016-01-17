@@ -337,7 +337,7 @@ namespace TERMED
 	{
 		Matrix4x4 Multiply;
 
-		Multiply.m_M[ 0 ] =	m_M[ 0 ] * p_Matrix.m_M[ 0 ] +
+		/*Multiply.m_M[ 0 ] =	m_M[ 0 ] * p_Matrix.m_M[ 0 ] +
 							m_M[ 1 ] * p_Matrix.m_M[ 4 ] +
 							m_M[ 2 ] * p_Matrix.m_M[ 8 ] +
 							m_M[ 3 ] * p_Matrix.m_M[ 12 ];
@@ -403,7 +403,75 @@ namespace TERMED
 		Multiply.m_M[ 15 ] =	m_M[ 12 ] * p_Matrix.m_M[ 3 ] +
 								m_M[ 13 ] * p_Matrix.m_M[ 7 ] +
 								m_M[ 14 ] * p_Matrix.m_M[ 11 ] +
-								m_M[ 15 ] * p_Matrix.m_M[ 15 ];
+								m_M[ 15 ] * p_Matrix.m_M[ 15 ];*/
+
+		Multiply.m_M[ 0 ] = m_M[ 0 ] * p_Matrix.m_M[ 0 ] +
+							m_M[ 4 ] * p_Matrix.m_M[ 1 ] +
+							m_M[ 8 ] * p_Matrix.m_M[ 2 ] +
+							m_M[ 12 ] * p_Matrix.m_M[ 3 ];
+		Multiply.m_M[ 4 ] = m_M[ 0 ] * p_Matrix.m_M[ 4 ] +
+							m_M[ 4 ] * p_Matrix.m_M[ 5 ] +
+							m_M[ 8 ] * p_Matrix.m_M[ 6 ] +
+							m_M[ 12 ] * p_Matrix.m_M[ 7 ];
+		Multiply.m_M[ 8 ] = m_M[ 0 ] * p_Matrix.m_M[ 8 ] +
+							m_M[ 4 ] * p_Matrix.m_M[ 9 ] +
+							m_M[ 8 ] * p_Matrix.m_M[ 10 ] +
+							m_M[ 12 ] * p_Matrix.m_M[ 11 ];
+		Multiply.m_M[ 12 ] = m_M[ 0 ] * p_Matrix.m_M[ 12 ] +
+							m_M[ 4 ] * p_Matrix.m_M[ 13 ] +
+							m_M[ 8 ] * p_Matrix.m_M[ 14 ] +
+							m_M[ 12 ] * p_Matrix.m_M[ 15 ];
+
+		Multiply.m_M[ 1 ] = m_M[ 1 ] * p_Matrix.m_M[ 0 ] +
+							m_M[ 5 ] * p_Matrix.m_M[ 1 ] +
+							m_M[ 9 ] * p_Matrix.m_M[ 2 ] +
+							m_M[ 13 ] * p_Matrix.m_M[ 3 ];
+		Multiply.m_M[ 5 ] = m_M[ 1 ] * p_Matrix.m_M[ 4 ] +
+							m_M[ 5 ] * p_Matrix.m_M[ 5 ] +
+							m_M[ 9 ] * p_Matrix.m_M[ 6 ] +
+							m_M[ 13 ] * p_Matrix.m_M[ 7 ];
+		Multiply.m_M[ 9 ] = m_M[ 1 ] * p_Matrix.m_M[ 8 ] +
+							m_M[ 5 ] * p_Matrix.m_M[ 9 ] +
+							m_M[ 9 ] * p_Matrix.m_M[ 10 ] +
+							m_M[ 13 ] * p_Matrix.m_M[ 11 ];
+		Multiply.m_M[ 13 ] = m_M[ 1 ] * p_Matrix.m_M[ 12 ] +
+							m_M[ 5 ] * p_Matrix.m_M[ 13 ] +
+							m_M[ 9 ] * p_Matrix.m_M[ 14 ] +
+							m_M[ 13 ] * p_Matrix.m_M[ 15 ];
+
+		Multiply.m_M[ 2 ] = m_M[ 2 ] * p_Matrix.m_M[ 0 ] +
+							m_M[ 6 ] * p_Matrix.m_M[ 1 ] +
+							m_M[ 10 ] * p_Matrix.m_M[ 2 ] +
+							m_M[ 14 ] * p_Matrix.m_M[ 3 ];
+		Multiply.m_M[ 6 ] = m_M[ 2 ] * p_Matrix.m_M[ 4 ] +
+							m_M[ 6 ] * p_Matrix.m_M[ 5 ] +
+							m_M[ 10 ] * p_Matrix.m_M[ 6 ] +
+							m_M[ 14 ] * p_Matrix.m_M[ 7 ];
+		Multiply.m_M[ 10 ] = m_M[ 2 ] * p_Matrix.m_M[ 8 ] +
+							m_M[ 6 ] * p_Matrix.m_M[ 9 ] +
+							m_M[ 10 ] * p_Matrix.m_M[ 10 ] +
+							m_M[ 14 ] * p_Matrix.m_M[ 11 ];
+		Multiply.m_M[ 14 ] = m_M[ 2 ] * p_Matrix.m_M[ 12 ] +
+							m_M[ 6 ] * p_Matrix.m_M[ 13 ] +
+							m_M[ 10 ] * p_Matrix.m_M[ 14 ] +
+							m_M[ 14 ] * p_Matrix.m_M[ 15 ];
+
+		Multiply.m_M[ 3 ] = m_M[ 3 ] * p_Matrix.m_M[ 0 ] +
+							m_M[ 7 ] * p_Matrix.m_M[ 1 ] +
+							m_M[ 11 ] * p_Matrix.m_M[ 2 ] +
+							m_M[ 15 ] * p_Matrix.m_M[ 3 ];
+		Multiply.m_M[ 7 ] = m_M[ 3 ] * p_Matrix.m_M[ 4 ] +
+							m_M[ 7 ] * p_Matrix.m_M[ 5 ] +
+							m_M[ 11 ] * p_Matrix.m_M[ 6 ] +
+							m_M[ 15 ] * p_Matrix.m_M[ 7 ];
+		Multiply.m_M[ 11 ] = m_M[ 3 ] * p_Matrix.m_M[ 8 ] +
+							m_M[ 7 ] * p_Matrix.m_M[ 9 ] +
+							m_M[ 11 ] * p_Matrix.m_M[ 10 ] +
+							m_M[ 15 ] * p_Matrix.m_M[ 11 ];
+		Multiply.m_M[ 15 ] = m_M[ 3 ] * p_Matrix.m_M[ 12 ] +
+							m_M[ 7 ] * p_Matrix.m_M[ 13 ] +
+							m_M[ 11 ] * p_Matrix.m_M[ 14 ] +
+							m_M[ 15 ] * p_Matrix.m_M[ 15 ];
 
 		return Multiply;
 	}
