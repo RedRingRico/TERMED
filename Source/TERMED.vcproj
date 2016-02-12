@@ -142,6 +142,9 @@
 				RelativePath=".\Source\OpenGLWindow.cpp">
 			</File>
 			<File
+				RelativePath=".\Source\Plane.cpp">
+			</File>
+			<File
 				RelativePath=".\Source\Vector3.cpp">
 			</File>
 			<File
@@ -169,6 +172,9 @@
 			</File>
 			<File
 				RelativePath=".\Headers\OpenGLWindow.h">
+			</File>
+			<File
+				RelativePath=".\Headers\Plane.h">
 			</File>
 			<File
 				RelativePath=".\Headers\Vector3.h">
