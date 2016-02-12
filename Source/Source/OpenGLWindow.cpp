@@ -127,7 +127,7 @@ namespace TERMED
 				m_Camera.SetProjectionMode( PROJECTION_MODE_ORTHOGRAPHIC );
 				m_Camera.SetPosition( Vector3( 0.0f, 50.0f, 0.0f ) );
 				m_Camera.SetClippingPlanes( 1.0f, 100000.0f );
-				m_Camera.SetWorldUp( 0.0f, 0.0f, 1.0f );
+				m_Camera.SetWorldUp( 0.0f, 0.0f, -1.0f );
 				m_ViewScale = 10.0f;
 
 				break;

@@ -39,6 +39,8 @@ namespace TERMED
 		void SetClippingPlanes( float p_Near, float p_Far );
 		void GetClippingPlanes( float &p_Near, float &p_Far ) const;
 
+		void Pan( float p_X, float p_Y );
+
 		void SetAspectRatio( float p_AspectRatio );
 		float GetAspectRatio( ) const;
 

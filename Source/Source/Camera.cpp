@@ -73,6 +73,10 @@ namespace TERMED
 		m_Far = p_Far;
 	}
 
+	void Camera::Pan( float p_X, float p_Y )
+	{
+	}
+
 	void Camera::SetAspectRatio( float p_AspectRatio )
 	{
 		m_AspectRatio = p_AspectRatio;
